@@ -21,9 +21,10 @@ import javax.swing.JTextPane;
 public class Interface extends JFrame {
 
 	private JPanel contentPane;
-	private JTextField textField;
-	private JTextField textField_1;
-	private JTextField textField_2;
+	private JTextField mediaField;
+	private JTextField personField;
+	private JTextField charField;
+	private JTextField prodField;
 
 	/**
 	 * Launch the application.
@@ -62,7 +63,7 @@ public class Interface extends JFrame {
 		GridBagLayout gbl_queryPanel = new GridBagLayout();
 		gbl_queryPanel.columnWidths = new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
 		gbl_queryPanel.rowHeights = new int[]{0, 0, 0, 0, 0, 0, 0, 0};
-		gbl_queryPanel.columnWeights = new double[]{0.0, 1.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
+		gbl_queryPanel.columnWeights = new double[]{0.0, 1.0, 0.0, 0.0, 1.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
 		gbl_queryPanel.rowWeights = new double[]{1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
 		queryPanel.setLayout(gbl_queryPanel);
 		
@@ -74,33 +75,33 @@ public class Interface extends JFrame {
 		gbc_lblMediaTitle.gridy = 0;
 		queryPanel.add(lblMediaTitle, gbc_lblMediaTitle);
 		
-		JLabel lblInformationType = new JLabel("Information Type");
-		GridBagConstraints gbc_lblInformationType = new GridBagConstraints();
-		gbc_lblInformationType.anchor = GridBagConstraints.SOUTHWEST;
-		gbc_lblInformationType.insets = new Insets(0, 0, 5, 5);
-		gbc_lblInformationType.gridx = 4;
-		gbc_lblInformationType.gridy = 0;
-		queryPanel.add(lblInformationType, gbc_lblInformationType);
+		JLabel lblProductionYear = new JLabel("Production Year");
+		GridBagConstraints gbc_lblProductionYear = new GridBagConstraints();
+		gbc_lblProductionYear.anchor = GridBagConstraints.SOUTHWEST;
+		gbc_lblProductionYear.insets = new Insets(0, 0, 5, 5);
+		gbc_lblProductionYear.gridx = 4;
+		gbc_lblProductionYear.gridy = 0;
+		queryPanel.add(lblProductionYear, gbc_lblProductionYear);
 		
-		textField = new JTextField();
-		GridBagConstraints gbc_textField = new GridBagConstraints();
-		gbc_textField.gridwidth = 2;
-		gbc_textField.insets = new Insets(0, 0, 5, 5);
-		gbc_textField.fill = GridBagConstraints.HORIZONTAL;
-		gbc_textField.gridx = 1;
-		gbc_textField.gridy = 1;
-		queryPanel.add(textField, gbc_textField);
-		textField.setColumns(10);
+		mediaField = new JTextField();
+		GridBagConstraints gbc_mediaField = new GridBagConstraints();
+		gbc_mediaField.gridwidth = 2;
+		gbc_mediaField.insets = new Insets(0, 0, 5, 5);
+		gbc_mediaField.fill = GridBagConstraints.HORIZONTAL;
+		gbc_mediaField.gridx = 1;
+		gbc_mediaField.gridy = 1;
+		queryPanel.add(mediaField, gbc_mediaField);
+		mediaField.setColumns(10);
 		
-		JComboBox comboBox = new JComboBox();
-		comboBox.setModel(new DefaultComboBoxModel(new String[] {"* ALL", "Genre", "Runtime", "Language", "Production Year", "Plot"}));
-		GridBagConstraints gbc_comboBox = new GridBagConstraints();
-		gbc_comboBox.gridwidth = 3;
-		gbc_comboBox.insets = new Insets(0, 0, 5, 5);
-		gbc_comboBox.fill = GridBagConstraints.HORIZONTAL;
-		gbc_comboBox.gridx = 4;
-		gbc_comboBox.gridy = 1;
-		queryPanel.add(comboBox, gbc_comboBox);
+		prodField = new JTextField();
+		GridBagConstraints gbc_prodField = new GridBagConstraints();
+		gbc_prodField.gridwidth = 2;
+		gbc_prodField.insets = new Insets(0, 0, 5, 5);
+		gbc_prodField.fill = GridBagConstraints.HORIZONTAL;
+		gbc_prodField.gridx = 4;
+		gbc_prodField.gridy = 1;
+		queryPanel.add(prodField, gbc_prodField);
+		prodField.setColumns(10);
 		
 		JLabel lblActorActress = new JLabel("Actor / Actress / Other");
 		GridBagConstraints gbc_lblActorActress = new GridBagConstraints();
@@ -110,15 +111,33 @@ public class Interface extends JFrame {
 		gbc_lblActorActress.gridy = 2;
 		queryPanel.add(lblActorActress, gbc_lblActorActress);
 		
-		textField_1 = new JTextField();
-		textField_1.setColumns(10);
-		GridBagConstraints gbc_textField_1 = new GridBagConstraints();
-		gbc_textField_1.gridwidth = 2;
-		gbc_textField_1.insets = new Insets(0, 0, 5, 5);
-		gbc_textField_1.fill = GridBagConstraints.HORIZONTAL;
-		gbc_textField_1.gridx = 1;
-		gbc_textField_1.gridy = 3;
-		queryPanel.add(textField_1, gbc_textField_1);
+		JLabel lblInformationType = new JLabel("Information Type");
+		GridBagConstraints gbc_lblInformationType = new GridBagConstraints();
+		gbc_lblInformationType.anchor = GridBagConstraints.SOUTHWEST;
+		gbc_lblInformationType.insets = new Insets(0, 0, 5, 5);
+		gbc_lblInformationType.gridx = 4;
+		gbc_lblInformationType.gridy = 2;
+		queryPanel.add(lblInformationType, gbc_lblInformationType);
+		
+		personField = new JTextField();
+		personField.setColumns(10);
+		GridBagConstraints gbc_personField = new GridBagConstraints();
+		gbc_personField.gridwidth = 2;
+		gbc_personField.insets = new Insets(0, 0, 5, 5);
+		gbc_personField.fill = GridBagConstraints.HORIZONTAL;
+		gbc_personField.gridx = 1;
+		gbc_personField.gridy = 3;
+		queryPanel.add(personField, gbc_personField);
+		
+		JComboBox infoBox = new JComboBox();
+		infoBox.setModel(new DefaultComboBoxModel(new String[] {"* ALL", "Genre", "Runtime", "Language", "Production Year", "Plot"}));
+		GridBagConstraints gbc_infoBox = new GridBagConstraints();
+		gbc_infoBox.gridwidth = 2;
+		gbc_infoBox.insets = new Insets(0, 0, 5, 5);
+		gbc_infoBox.fill = GridBagConstraints.HORIZONTAL;
+		gbc_infoBox.gridx = 4;
+		gbc_infoBox.gridy = 3;
+		queryPanel.add(infoBox, gbc_infoBox);
 		
 		JLabel lblCharacterName = new JLabel("Character Name");
 		GridBagConstraints gbc_lblCharacterName = new GridBagConstraints();
@@ -128,22 +147,40 @@ public class Interface extends JFrame {
 		gbc_lblCharacterName.gridy = 4;
 		queryPanel.add(lblCharacterName, gbc_lblCharacterName);
 		
-		textField_2 = new JTextField();
-		textField_2.setColumns(10);
-		GridBagConstraints gbc_textField_2 = new GridBagConstraints();
-		gbc_textField_2.gridwidth = 2;
-		gbc_textField_2.insets = new Insets(0, 0, 5, 5);
-		gbc_textField_2.fill = GridBagConstraints.HORIZONTAL;
-		gbc_textField_2.gridx = 1;
-		gbc_textField_2.gridy = 5;
-		queryPanel.add(textField_2, gbc_textField_2);
+		JLabel lblMediaType = new JLabel("Media Type");
+		GridBagConstraints gbc_lblMediaType = new GridBagConstraints();
+		gbc_lblMediaType.anchor = GridBagConstraints.SOUTHWEST;
+		gbc_lblMediaType.insets = new Insets(0, 0, 5, 5);
+		gbc_lblMediaType.gridx = 4;
+		gbc_lblMediaType.gridy = 4;
+		queryPanel.add(lblMediaType, gbc_lblMediaType);
 		
-		JButton btnNewButton = new JButton("Search");
-		GridBagConstraints gbc_btnNewButton = new GridBagConstraints();
-		gbc_btnNewButton.insets = new Insets(0, 0, 0, 5);
-		gbc_btnNewButton.gridx = 10;
-		gbc_btnNewButton.gridy = 6;
-		queryPanel.add(btnNewButton, gbc_btnNewButton);
+		charField = new JTextField();
+		charField.setColumns(10);
+		GridBagConstraints gbc_charField = new GridBagConstraints();
+		gbc_charField.gridwidth = 2;
+		gbc_charField.insets = new Insets(0, 0, 5, 5);
+		gbc_charField.fill = GridBagConstraints.HORIZONTAL;
+		gbc_charField.gridx = 1;
+		gbc_charField.gridy = 5;
+		queryPanel.add(charField, gbc_charField);
+		
+		JComboBox mediaBox = new JComboBox();
+		mediaBox.setModel(new DefaultComboBoxModel(new String[] {"Any", "Movie", "TV Series", "TV Mini Series", "TV Movie", "Video Movie", "Video Game", "Episode"}));
+		GridBagConstraints gbc_mediaBox = new GridBagConstraints();
+		gbc_mediaBox.gridwidth = 2;
+		gbc_mediaBox.insets = new Insets(0, 0, 5, 5);
+		gbc_mediaBox.fill = GridBagConstraints.HORIZONTAL;
+		gbc_mediaBox.gridx = 4;
+		gbc_mediaBox.gridy = 5;
+		queryPanel.add(mediaBox, gbc_mediaBox);
+		
+		JButton searchButton = new JButton("Search");
+		GridBagConstraints gbc_searchButton = new GridBagConstraints();
+		gbc_searchButton.insets = new Insets(0, 0, 0, 5);
+		gbc_searchButton.gridx = 10;
+		gbc_searchButton.gridy = 6;
+		queryPanel.add(searchButton, gbc_searchButton);
 		
 		JPanel dataPanel = new JPanel();
 		panel.add(dataPanel, "cell 0 1,grow");
