@@ -18,6 +18,11 @@ public class Database {
 			SimpleMySQL mysql = new SimpleMySQL();
 			mysql.connect("71.15.195.219:3306", "root","","moviedb");
 			SimpleMySQLResult result;
+			
+			/*
+			 * The following query gets all movies Adam Sandler played in
+			 * and sorts them from oldest to newest made.
+			 */
 			result = mysql.Query("SELECT * FROM title WHERE id IN "
 					+ "(SELECT movie_id FROM cast_info WHERE person_id IN "
 					+ "(SELECT id FROM name WHERE name='Ferrell, Will')) AND "
@@ -26,7 +31,12 @@ public class Database {
 			
 			while(result.next())
 			{
-				System.out.println(result.getString("title"));
+				String year = result.getString("production_year");
+				
+				if(year == null)
+					year = "unlisted";
+				System.out.println("\n__________"+ year + "__________\n" 
+						+  result.getString("title"));
 			}
 			result.close();
 		} catch (Exception e) {
