@@ -18,14 +18,21 @@ public class Database {
 			SimpleMySQL mysql = new SimpleMySQL();
 			mysql.connect("71.15.195.219:3306", "root","","moviedb");
 			SimpleMySQLResult result;
+			SimpleMySQLResult result2;
 			
 			/*
-			 * The following query gets all movies Adam Sandler played in
+			 * Try a producer such as Michael Bay.
+			 * Try an Actor such as Will Ferrell
+			 */
+			String somePerson = "Bay, Michael"; //in form "Last, First"
+			
+			/*
+			 * The following query gets all movies somePerson played in
 			 * and sorts them from oldest to newest made.
 			 */
 			result = mysql.Query("SELECT * FROM title WHERE id IN "
 					+ "(SELECT movie_id FROM cast_info WHERE person_id IN "
-					+ "(SELECT id FROM name WHERE name='Ferrell, Will')) AND "
+					+ "(SELECT id FROM name WHERE name='"+somePerson+"')) AND "
 					+ "kind_id=(SELECT id FROM kind_type WHERE kind='movie')"
 					+ "ORDER BY production_year ASC");
 			
@@ -34,9 +41,23 @@ public class Database {
 				String year = result.getString("production_year");
 				
 				if(year == null)
-					year = "unlisted";
-				System.out.println("\n__________"+ year + "__________\n" 
-						+  result.getString("title"));
+					year = "unknown";
+				System.out.println("Movie: "+result.getString("title")+"\n"+"Production Year: "+year);
+				
+				/* This query will now get every role somePerson had for each movie */
+				result2 = mysql.Query("SELECT * FROM role_type WHERE id IN "
+						+ "(SELECT role_id FROM cast_info WHERE movie_id="
+						+ ""+result.getString("id")+" && person_id IN"
+						+ "(SELECT id FROM name WHERE name='"+somePerson+"'))"
+						+ "ORDER BY id ASC");
+				
+				System.out.print("Roles: ");
+				while(result2.next())
+				{
+					System.out.print(result2.getString("role") +"/");
+				}
+				
+				System.out.println("\n");
 			}
 			result.close();
 		} catch (Exception e) {
