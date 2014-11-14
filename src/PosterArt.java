@@ -40,6 +40,7 @@ class PosterArt extends JComponent implements Runnable {
 		
 		//replace any spaces in the title with an underscore
 		mediaTitle = mediaTitle.replace(" ", "_");
+		mediaType = mediaType.replace(" ", "_");
 		
 		/*
 		 * We start a new thread. This thread will run on its own

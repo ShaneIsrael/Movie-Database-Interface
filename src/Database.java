@@ -1,6 +1,7 @@
 import simplemysql.SimpleMySQL;
 import simplemysql.SimpleMySQLResult;
 
+
 public class Database {
 
 	public static void main(String... args) {
@@ -13,12 +14,12 @@ public class Database {
 		 * In Eclipse, right click those files > build path > add to build path. 
 		 */
 		try {
-			String url = "jdbc:mysql://71.15.195.219:3306/moviedb";
+			//String url = "jdbc:mysql://71.15.195.219:3306/moviedb";
 			
 			SimpleMySQL mysql = new SimpleMySQL();
 			mysql.connect("71.15.195.219:3306", "root","","moviedb");
 			SimpleMySQLResult result;
-			SimpleMySQLResult result2;
+			SimpleMySQLResult result2 = null;
 			
 			/*
 			 * Try a producer such as Michael Bay.
@@ -60,6 +61,7 @@ public class Database {
 				System.out.println("\n");
 			}
 			result.close();
+			result2.close();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
