@@ -1,5 +1,6 @@
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
+import java.awt.Graphics;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -22,16 +23,16 @@ public class UserGUI extends JFrame {
 	public JButton search;
 	
 	private JPanel panel;
+	InformationGUI infoGui;
+	
+	int w;
+	int h;
+	int x;
+	int y;
 	
 	public UserGUI() {
 		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
-        int w = this.getSize().width;
-        int h = this.getSize().height;
-        int x = (dim.width - w + 120) / 5;
-        int y = (dim.height - h) / 6;
-        this.setLocation(x, y);
         
 		panel = new JPanel(new GridLayout(7,1));
 		panel.add(new JLabel("Title"));
@@ -67,16 +68,26 @@ public class UserGUI extends JFrame {
 		search = new JButton("Search");
 		search.addActionListener(new Search());
 		panel.add(search);
-		
+        
 		this.setLayout(new BorderLayout());
 		this.add(panel, BorderLayout.CENTER);
 		this.pack();
 		this.setVisible(true);
+		
+        Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
+        w = this.getWidth();
+        h = this.getHeight();
+        x = (dim.width - w + 120) / 5;
+        y = (dim.height - h) / 6;
+        this.setLocation(x, y);
+        
 	}
 	
 	private class Search implements ActionListener {
+
 		public void actionPerformed(ActionEvent e) {
-			// add things to do here
+			infoGui = new InformationGUI();
+			infoGui.setLocation(x + w, y);
 		}
 	}
 	
