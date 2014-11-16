@@ -31,7 +31,7 @@ public class InformationGUI extends JFrame {
 		 * These strings for example will come from the
 		 * hash table
 		 */
-		String mediaTitle = "ET";
+		String mediaTitle = "Pancakes";
 		String mediaType = "movie";
 		
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
