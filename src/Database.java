@@ -25,7 +25,7 @@ public class Database {
 			 * Try a producer such as Michael Bay.
 			 * Try an Actor such as Will Ferrell
 			 */
-			String somePerson = "Bay, Michael"; //in form "Last, First"
+			String somePerson = "Jurmu, John"; //in form "Last, First"
 			
 			/*
 			 * The following query gets all movies somePerson played in
@@ -61,7 +61,8 @@ public class Database {
 				System.out.println("\n");
 			}
 			result.close();
-			result2.close();
+			if(result2 != null)
+				result2.close();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
