@@ -1,19 +1,22 @@
-import java.awt.EventQueue;
-
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-
 import java.awt.BorderLayout;
+import java.awt.EventQueue;
+import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.HashMap;
 
-import net.miginfocom.swing.MigLayout;
-
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
-import javax.swing.JButton;
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
+
+import net.miginfocom.swing.MigLayout;
 
 
 public class SearchGUI {
@@ -50,31 +53,46 @@ public class SearchGUI {
 	 */
 	private void initialize() {
 		frame = new JFrame();
-		frame.setBounds(100, 100, 283, 238);
+		frame.setBounds(100, 100, 283, 353);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.setTitle("Search");
+		
+		try {
+			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (InstantiationException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IllegalAccessException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (UnsupportedLookAndFeelException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
 		JPanel panel = new JPanel();
 		frame.getContentPane().add(panel, BorderLayout.CENTER);
-		panel.setLayout(new MigLayout("", "[421.00,grow,center]", "[][][][][][]"));
+		panel.setLayout(new MigLayout("", "[421.00,grow,center]", "[][][][][][][][][]"));
 		
 		JLabel lblTitle = new JLabel("Title");
+		lblTitle.setFont(new Font("Tahoma", Font.BOLD, 22));
 		panel.add(lblTitle, "cell 0 0");
 		
 		titleField = new JTextField();
+		titleField.setFont(new Font("Tahoma", Font.PLAIN, 24));
 		titleField.setHorizontalAlignment(SwingConstants.CENTER);
 		panel.add(titleField, "cell 0 1,growx");
 		titleField.setColumns(10);
 		
+		JLabel lblMediaType = new JLabel("Media Type");
+		lblMediaType.setFont(new Font("Tahoma", Font.BOLD, 22));
+		panel.add(lblMediaType, "flowx,cell 0 2");
+		
 		JLabel label = new JLabel("");
-		panel.add(label, "flowx,cell 0 2");
-		
-		JLabel lblProductionYear = new JLabel("Production Year");
-		panel.add(lblProductionYear, "cell 0 2");
-		
-		productionField = new JTextField();
-		productionField.setHorizontalAlignment(SwingConstants.CENTER);
-		panel.add(productionField, "cell 0 3,growx");
-		productionField.setColumns(10);
+		panel.add(label, "cell 0 2");
 		
 		JButton btnSearch = new JButton("Search");
 		
@@ -94,7 +112,22 @@ public class SearchGUI {
 				
 			}
 		});
-		panel.add(btnSearch, "cell 0 5");
+		
+		JComboBox comboBox = new JComboBox();
+		comboBox.setModel(new DefaultComboBoxModel(new String[] {"movie", "tv series", "tv movie", "video movie", "tv miniseries", "video game"}));
+		((JLabel)comboBox.getRenderer()).setHorizontalAlignment(SwingConstants.CENTER);
+		panel.add(comboBox, "cell 0 3,growx");
+		
+		JLabel lblProductionYear = new JLabel("Production Year");
+		lblProductionYear.setFont(new Font("Tahoma", Font.BOLD, 20));
+		panel.add(lblProductionYear, "cell 0 5");
+		
+		productionField = new JTextField();
+		productionField.setFont(new Font("Tahoma", Font.PLAIN, 24));
+		productionField.setHorizontalAlignment(SwingConstants.CENTER);
+		panel.add(productionField, "cell 0 6,growx");
+		productionField.setColumns(10);
+		panel.add(btnSearch, "cell 0 8");
 	}
 
 }

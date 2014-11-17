@@ -1,27 +1,17 @@
-import java.awt.BorderLayout;
-import java.awt.EventQueue;
-import java.io.IOException;
+import java.awt.Font;
 import java.util.HashMap;
 
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
+import javax.swing.JTextPane;
+import javax.swing.ScrollPaneConstants;
 import javax.swing.border.EmptyBorder;
 import javax.swing.text.DefaultCaret;
 
 import net.miginfocom.swing.MigLayout;
-
-import java.awt.GridLayout;
-
-import javax.swing.JLabel;
-
-import java.awt.FlowLayout;
-import java.awt.Font;
-
-import javax.swing.BoxLayout;
-import javax.swing.JScrollPane;
-import javax.swing.JTextPane;
-import javax.swing.ScrollPaneConstants;
-import javax.swing.JTextArea;
 
 
 public class InformationGUI extends JFrame {
@@ -69,7 +59,7 @@ public class InformationGUI extends JFrame {
 		infoPanel.setLayout(new MigLayout("", "[214.00px,grow,center]", "[20px][][][][][][][58.00][][][][][][][][][149.00][][][][]"));
 		
 		JLabel labelTitle = new JLabel((String) map.get("title"));
-		labelTitle.setFont(new Font("Georgia", Font.BOLD, 26));
+		labelTitle.setFont(new Font("Georgia", Font.BOLD, 32));
 		infoPanel.add(labelTitle, "cell 0 1,alignx center,aligny top");
 		
 		JLabel lblGenre = new JLabel("Genre");

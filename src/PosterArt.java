@@ -116,7 +116,7 @@ class PosterArt extends JComponent implements Runnable {
 				 */
 				URL url = new URL(
 						"https://ajax.googleapis.com/ajax/services/search/images?v=1.0&q="
-								+ mediaTitle + "_"+mediaType+"_"+productionYear+"&start=" + i + "&rsz=8");
+								+ mediaTitle + "_"+mediaType+"&start=" + i + "&rsz=8");
 				URLConnection connection = url.openConnection();
 
 				/*
