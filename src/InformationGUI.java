@@ -68,7 +68,7 @@ public class InformationGUI extends JFrame {
 		contentPane.add(infoPanel, "cell 1 0,grow");
 		infoPanel.setLayout(new MigLayout("", "[214.00px,grow,center]", "[20px][][][][][][][58.00][][][][][][][][][149.00][][][][]"));
 		
-		JLabel labelTitle = new JLabel((String) map.get("movie"));
+		JLabel labelTitle = new JLabel((String) map.get("title"));
 		labelTitle.setFont(new Font("Georgia", Font.BOLD, 26));
 		infoPanel.add(labelTitle, "cell 0 1,alignx center,aligny top");
 		
