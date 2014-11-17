@@ -16,19 +16,15 @@ public class Database {
 		infoMap.put("kind", new String(kind));
 
 		try {
-			// String url = "jdbc:mysql://71.15.195.219:3306/moviedb";
 
 			String infoData[] = { "plot", "runtimes", "genres",
 					"release dates", "mpaa", "budget", "gross" };
+			
 			SimpleMySQL mysql = new SimpleMySQL();
-			mysql.connect("71.15.195.219:3306", "root", "", "moviedb");
+			mysql.connect("71.15.195.219:3306", Login.user, Login.password, "moviedb");
 			SimpleMySQLResult result;
 			SimpleMySQLResult infoResult = null;
 
-			/*
-			 * The following query gets all movies somePerson played in and
-			 * sorts them from oldest to newest made.
-			 */
 			result = mysql.Query("SELECT * FROM title WHERE title='" + title
 					+ "' "
 					+ "AND kind_id=(SELECT id FROM kind_type WHERE kind='"
@@ -81,7 +77,6 @@ public class Database {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		System.out.println("Hello!!!");
 		return infoMap;
 	}
 }

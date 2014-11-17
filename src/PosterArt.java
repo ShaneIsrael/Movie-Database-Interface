@@ -144,8 +144,6 @@ class PosterArt extends JComponent implements Runnable {
 							.getJSONArray("results").getJSONObject(j)
 							.getString("url");
 					if (imageUrl.toLowerCase().contains("wikipedia")) {
-						System.out
-								.println("FOUND! wikipedia link\n" + imageUrl);
 						linkFound = true;
 						break;
 					} else {
