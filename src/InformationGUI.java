@@ -145,6 +145,7 @@ public class InformationGUI extends JFrame {
 		labelGross.setFont(new Font("Tahoma", Font.PLAIN, 18));
 		infoPanel.add(labelGross, "cell 0 20");
 		
+		this.setResizable(false);
 		this.setTitle("Search Results");
 		this.setVisible(true);
 	}
