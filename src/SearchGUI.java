@@ -85,6 +85,9 @@ public class SearchGUI {
 				String title = titleField.getText();
 				String prod = productionField.getText();
 				
+				if(productionField.getText().equals(""))
+					prod = "*";
+				
 				HashMap infoMap = Database.search(title, "movie", prod);
 				
 				new InformationGUI(infoMap);

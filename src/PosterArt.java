@@ -24,6 +24,7 @@ class PosterArt extends JComponent implements Runnable {
 	
 	private String mediaTitle;
 	private String mediaType;
+	private String productionYear;
 	
 	/**
 	 * All this class does is get the poster art. Nothing more needs to be
@@ -32,14 +33,16 @@ class PosterArt extends JComponent implements Runnable {
 	 * forward.
 	 */
 
-	public PosterArt(String title, String type, InformationGUI gui) {
+	public PosterArt(String title, String type, String prodYear,InformationGUI gui) {
 
 		this.mediaTitle = title;
 		this.mediaType = type;
+		this.productionYear = prodYear;
 		this.infoGui = gui;
 		
 		//replace any spaces in the title with an underscore
 		mediaTitle = mediaTitle.replace(" ", "_");
+		mediaTitle = mediaTitle.replace(".", "");
 		mediaType = mediaType.replace(" ", "_");
 		
 		/*
@@ -113,7 +116,7 @@ class PosterArt extends JComponent implements Runnable {
 				 */
 				URL url = new URL(
 						"https://ajax.googleapis.com/ajax/services/search/images?v=1.0&q="
-								+ mediaTitle + "_"+mediaType+"&start=" + i + "&rsz=8");
+								+ mediaTitle + "_"+mediaType+"_"+productionYear+"&start=" + i + "&rsz=8");
 				URLConnection connection = url.openConnection();
 
 				/*
