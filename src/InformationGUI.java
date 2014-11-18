@@ -14,6 +14,7 @@ import javax.swing.text.DefaultCaret;
 import net.miginfocom.swing.MigLayout;
 
 
+@SuppressWarnings("serial")
 public class InformationGUI extends JFrame {
 
 	private JPanel contentPane;
@@ -23,7 +24,7 @@ public class InformationGUI extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public InformationGUI(HashMap map) {
+	public InformationGUI(HashMap<String, String> map) {
 		
 		/*
 		 * All data about the movie search should be sent here
@@ -47,7 +48,7 @@ public class InformationGUI extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(new MigLayout("", "[467.00][45.00,grow,center]", "[684.00,grow]"));
 		
-		poster = new PosterArt(mediaTitle, mediaType, (String)map.get("production_year"), this);
+		poster = new PosterArt(mediaTitle, mediaType, (String)map.get("production_year"), (String)map.get("media_id"), this);
 		
 		JPanel posterPanel = new JPanel();
 		contentPane.add(posterPanel, "cell 0 0,grow");

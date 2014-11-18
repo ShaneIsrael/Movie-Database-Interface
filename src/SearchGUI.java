@@ -60,16 +60,12 @@ public class SearchGUI {
 		try {
 			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
 		} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (InstantiationException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (IllegalAccessException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (UnsupportedLookAndFeelException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
@@ -106,15 +102,15 @@ public class SearchGUI {
 				if(productionField.getText().equals(""))
 					prod = "*";
 				
-				HashMap infoMap = Database.search(title, "movie", prod);
+				HashMap<String, String> infoMap = Database.search(title, "movie", prod);
 				
 				new InformationGUI(infoMap);
 				
 			}
 		});
 		
-		JComboBox comboBox = new JComboBox();
-		comboBox.setModel(new DefaultComboBoxModel(new String[] {"movie", "tv series", "tv movie", "video movie", "tv miniseries", "video game"}));
+		JComboBox<String> comboBox = new JComboBox<String>();
+		comboBox.setModel(new DefaultComboBoxModel<String>(new String[] {"movie", "tv series", "tv movie", "video movie", "tv miniseries", "video game"}));
 		((JLabel)comboBox.getRenderer()).setHorizontalAlignment(SwingConstants.CENTER);
 		panel.add(comboBox, "cell 0 3,growx");
 		

@@ -4,7 +4,9 @@ import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStreamReader;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
 
@@ -13,6 +15,10 @@ import javax.swing.JComponent;
 
 import org.json.JSONObject;
 
+import simplemysql.SimpleMySQL;
+import simplemysql.SimpleMySQLResult;
+
+@SuppressWarnings("serial")
 class PosterArt extends JComponent implements Runnable {
 	private Image img;
 	private BufferedImage image = null;
@@ -24,7 +30,9 @@ class PosterArt extends JComponent implements Runnable {
 	
 	private String mediaTitle;
 	private String mediaType;
+	private String mediaId;
 	private String productionYear;
+	private String databaseArtUrl;
 	
 	/**
 	 * All this class does is get the poster art. Nothing more needs to be
@@ -33,10 +41,11 @@ class PosterArt extends JComponent implements Runnable {
 	 * forward.
 	 */
 
-	public PosterArt(String title, String type, String prodYear,InformationGUI gui) {
+	public PosterArt(String title, String type, String prodYear, String mediaId, InformationGUI gui) {
 
 		this.mediaTitle = title;
 		this.mediaType = type;
+		this.mediaId = mediaId;
 		this.productionYear = prodYear;
 		this.infoGui = gui;
 		
@@ -90,114 +99,173 @@ class PosterArt extends JComponent implements Runnable {
 	@Override
 	public void run() {
 
-		
-		try {
-			String backupURL = null;
-			String imageUrl = null;
-			String line;
-			boolean linkFound = false;
-			StringBuilder builder = new StringBuilder();
-
-			for (int i = 0; i < 5; i++) {
-				
-				/*
-				 * If we found a link, we can immediately stop searching
-				 * to save time.
-				 */
-				if (linkFound)
-					break;
-
-				/*
-				 * This is the Google API. We are telling it to give us the max of 8 results
-				 * per page. we say "start="+i which tells it which page we want results from.
-				 * 
-				 * Thats why this whole thing is in a for loop. We want to search a max of 5 pages
-				 * worth of results for a wikipedia link that matches.
-				 */
-				URL url = new URL(
-						"https://ajax.googleapis.com/ajax/services/search/images?v=1.0&q="
-								+ mediaTitle + "_"+mediaType+"&start=" + i + "&rsz=8");
-				URLConnection connection = url.openConnection();
-
-				/*
-				 * Get the reply from Google
-				 */
-				BufferedReader reader = new BufferedReader(
-						new InputStreamReader(connection.getInputStream()));
-				while ((line = reader.readLine()) != null) {
-					builder.append(line);
-				}
-
-				/*
-				 * Create a json object from the reply we got from Google.
-				 */
-				JSONObject json = new JSONObject(builder.toString());
-
-				/*
-				 * Looks for a wikipedia link first since that is most likely to
-				 * have the correct poster art image. If it can't find a
-				 * wikipedia link it then chooses the first result.
-				 */
-				for (int j = 0; j < json.getJSONObject("responseData")
-						.getJSONArray("results").length(); j++) {
-					imageUrl = json.getJSONObject("responseData")
-							.getJSONArray("results").getJSONObject(j)
-							.getString("url");
-					if (imageUrl.toLowerCase().contains("wikipedia")) {
-						linkFound = true;
-						break;
-					} else {
-						imageUrl = null;
-
-					}
-				}
-
-				if (i == 0)
-					backupURL = json.getJSONObject("responseData")
-							.getJSONArray("results").getJSONObject(0)
-							.getString("url");
-			}
-
-			/*
-			 * If we couldn't find a wikipedia image, we will use the top result
-			 * that google returns as our image and hope for the best. 95% of the
-			 * time this ends up returning correct poster art.
-			 */
-			if (imageUrl == null)
+		if(mediaId != null) //If the media search is valid
+			if(!databaseHasLink())
 			{
-				System.out.println("No Wikipedia link found.");
-				imageUrl = backupURL;
+				System.out.println("Attempting to find art on the web...");
+				
+				try {
+					String backupURL = null;
+					String imageUrl = null;
+					String line;
+					boolean linkFound = false;
+					StringBuilder builder = new StringBuilder();
+					
+					for (int i = 0; i < 5; i++) {
+						
+						/*
+						 * If we found a link, we can immediately stop searching
+						 * to save time.
+						 */
+						if (linkFound)
+							break;
+		
+						/*
+						 * This is the Google API. We are telling it to give us the max of 8 results
+						 * per page. we say "start="+i which tells it which page we want results from.
+						 * 
+						 * Thats why this whole thing is in a for loop. We want to search a max of 5 pages
+						 * worth of results for a wikipedia link that matches.
+						 */
+						URL url = new URL(
+								"https://ajax.googleapis.com/ajax/services/search/images?v=1.0&q="
+										+ mediaTitle + "_"+mediaType+"&start=" + i + "&rsz=8");
+						URLConnection connection = url.openConnection();
+		
+						/*
+						 * Get the reply from Google
+						 */
+						BufferedReader reader = new BufferedReader(
+								new InputStreamReader(connection.getInputStream()));
+						while ((line = reader.readLine()) != null) {
+							builder.append(line);
+						}
+		
+						/*
+						 * Create a json object from the reply we got from Google.
+						 */
+						JSONObject json = new JSONObject(builder.toString());
+		
+						/*
+						 * Looks for a wikipedia link first since that is most likely to
+						 * have the correct poster art image. If it can't find a
+						 * wikipedia link it then chooses the first result.
+						 */
+						for (int j = 0; j < json.getJSONObject("responseData")
+								.getJSONArray("results").length(); j++) {
+							imageUrl = json.getJSONObject("responseData")
+									.getJSONArray("results").getJSONObject(j)
+									.getString("url");
+							if (imageUrl.toLowerCase().contains("wikipedia")) {
+								linkFound = true;
+								break;
+							} else {
+								imageUrl = null;
+		
+							}
+						}
+		
+						if (i == 0)
+							backupURL = json.getJSONObject("responseData")
+									.getJSONArray("results").getJSONObject(0)
+									.getString("url");
+					}
+		
+					/*
+					 * If we couldn't find a wikipedia image, we will use the top result
+					 * that google returns as our image and hope for the best. 95% of the
+					 * time this ends up returning correct poster art.
+					 */
+					if (imageUrl == null)
+					{
+						imageUrl = backupURL;
+					}
+					
+					addImageToDatabase(imageUrl);
+		
+					getImage(imageUrl);
+		
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+			else
+			{
+				try {
+					getImage(databaseArtUrl);
+					
+				} catch (MalformedURLException e) {
+					e.printStackTrace();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
 			}
 
-			/*
-			 * Read the image from the web into our BufferedImage variable
-			 */
-			image = ImageIO.read(new URL(imageUrl));
+	}
 
-			/*
-			 * Set our image to the image we found so that it is no longer
-			 * null and will be drawn.
-			 */
-			this.img = (Image) image;
-			/*
-			 * Scale our image to the aspect ration we set. 
-			 */
-			img = img.getScaledInstance(scaleWidth, scaleHeight,Image.SCALE_SMOOTH);
-			/*
-			 * Set the size of our JComponent to be the size of our image, else it wont
-			 * have a size and wouldn't show up on our frame.
-			 */
-			this.setPreferredSize(new Dimension(img.getWidth(this), img.getHeight(this)));
-			/*
-			 * This is a pointer to our InformationGUI frame. Here we are packing everything
-			 * nicely against the image.
-			 */
-			infoGui.pack();
+	private void addImageToDatabase(String imageUrl) 
+	{
+		System.out.println("Art found! Adding to database...");
+		SimpleMySQL mysql = new SimpleMySQL();
+		mysql.connect(Login.address, Login.user, Login.password,"moviedb");
+		
+		mysql.Query("INSERT INTO poster_art (id, art_url) VALUES("+mediaId+",\""+imageUrl+"\")");
+		mysql.close();
+	}
 
-		} catch (Exception e) {
-			e.printStackTrace();
+	private boolean databaseHasLink() 
+	{
+		System.out.println("Checking database for art...");
+		SimpleMySQL mysql = new SimpleMySQL();
+		mysql.connect(Login.address, Login.user, Login.password,"moviedb");
+		SimpleMySQLResult result;
+		
+		result = mysql.Query("SELECT * FROM poster_art WHERE id="+mediaId);
+		
+		if(result.getNumRows() == 0)
+		{
+			System.out.println("Database does not contain art for this media...");
+			return false;
 		}
+		else
+		{
+			System.out.println("Getting art from database...");
+			databaseArtUrl = result.getString("art_url");
+			result.close();
+			mysql.close();
+			return true;
+		}
+		
+	}
 
+	private void getImage(String imageUrl) throws MalformedURLException, IOException {
+		
+		System.out.println("Downloading art...");
+		/*
+		 * Read the image from the web into our BufferedImage variable
+		 */
+		image = ImageIO.read(new URL(imageUrl));
+
+		/*
+		 * Set our image to the image we found so that it is no longer
+		 * null and will be drawn.
+		 */
+		this.img = (Image) image;
+		/*
+		 * Scale our image to the aspect ration we set. 
+		 */
+		img = img.getScaledInstance(scaleWidth, scaleHeight,Image.SCALE_SMOOTH);
+		/*
+		 * Set the size of our JComponent to be the size of our image, else it wont
+		 * have a size and wouldn't show up on our frame.
+		 */
+		this.setPreferredSize(new Dimension(img.getWidth(this), img.getHeight(this)));
+		/*
+		 * This is a pointer to our InformationGUI frame. Here we are packing everything
+		 * nicely against the image.
+		 */
+		infoGui.pack();
+		
 	}
 
 	public BufferedImage getPosterArt() {
