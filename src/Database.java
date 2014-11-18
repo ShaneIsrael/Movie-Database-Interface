@@ -24,7 +24,6 @@ public class Database {
 					"release dates", "mpaa", "budget", "gross" };
 
 			SimpleMySQL mysql = new SimpleMySQL();
-			// Internet Address: 71.15.195.219:3306
 			mysql.connect(Login.address, Login.user, Login.password,
 					"moviedb");
 			SimpleMySQLResult result;
